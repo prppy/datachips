@@ -2,6 +2,7 @@ import Header from "./Header.jsx"
 import AreaFreqDist from './AreaFreqDist.jsx'
 import CrmCdFreqDist from "./CrmCdFreqDist.jsx"
 import GenderPie from "./GenderPie.jsx"
+import WeaponPie from "./WeaponPie"
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           alignItems: "center",
         }}>
         <GenderPie></GenderPie>
-        <CrmCdFreqDist></CrmCdFreqDist>
+        <WeaponPie></WeaponPie>
       </div>
     </>
   )

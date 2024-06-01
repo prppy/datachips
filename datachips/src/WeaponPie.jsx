@@ -24,7 +24,7 @@ const WeaponPie = () => {
                     header: true,
                     complete: (results) => {
                         setFilteredData(results.data);
-                        updateweaponCounts(results.data);
+                        updateWeaponCounts(results.data);
                         extractUniqueAreas(results.data);
                         extractUniqueGenders(results.data);
                     }
@@ -32,15 +32,15 @@ const WeaponPie = () => {
             });
     }, []);
 
-    const updateweaponCounts = (data) => {
+    const updateWeaponCounts = (data) => {
         const weaponCounts = {};
         data.forEach(row => {
-            const gender = row["Vict Sex"];
-            if (gender) {
-                if (!weaponCounts[gender]) {
-                    weaponCounts[gender] = 0;
+            const weapon = row["Weapon Desc"];
+            if (weapon) {
+                if (!weaponCounts[weapon]) {
+                    weaponCounts[weapon] = 0;
                 }
-                weaponCounts[gender]++;
+                weaponCounts[weapon]++;
             }
         });
         setWeaponCounts(weaponCounts);
@@ -64,12 +64,12 @@ const WeaponPie = () => {
             const matchesDate = !dateOccurred || new Date(row["DATE OCC"]) >= new Date(dateOccurred);
             return matchesArea && matchesGender && matchesDate;
         });
-        updateGenderCounts(newFilteredData);
+        updateWeaponCounts(newFilteredData);
     };
 
-    const sortedGenderCounts = Object.entries(genderCounts).sort(([, a], [, b]) => b - a);
-    const labels = sortedGenderCounts.map(([gender]) => gender);
-    const data = sortedGenderCounts.map(([, count]) => count);
+    const sortedWeaponCounts = Object.entries(weaponCounts).sort(([, a], [, b]) => b - a).slice(0, 5);
+    const labels = sortedWeaponCounts.map(([weapon]) => weapon);
+    const data = sortedWeaponCounts.map(([, count]) => count);
 
     const chartData = {
         labels: labels,
@@ -95,7 +95,7 @@ const WeaponPie = () => {
               flexDirection: "row"
             }}
         >
-            <h2>Pie Chart of VWeapons Used</h2>
+            <h2>Pie Chart of Weapons</h2>
             <FilterComponent onFilterChange={handleFilterChange} areas={areas} genders={genders} />
             <div 
                 style={{
