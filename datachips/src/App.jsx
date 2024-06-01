@@ -14,6 +14,7 @@ function App() {
           display: "flex", 
           flexDirection: "row", 
           alignItems: "center",
+          padding: "20px"
         }}>
         <AreaFreqDist></AreaFreqDist>
         <CrmCdFreqDist></CrmCdFreqDist>
@@ -32,6 +33,7 @@ function App() {
           display: "flex", 
           flexDirection: "row", 
           alignItems: "center",
+          padding: "20px"
         }}>
         <TimeHist></TimeHist>
       </div>

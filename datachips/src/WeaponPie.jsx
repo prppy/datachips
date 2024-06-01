@@ -76,7 +76,7 @@ const WeaponPie = () => {
         datasets: [
             {
                 label: 'Frequency',
-                backgroundColor: ['lightblue', 'lightgreen', 'lightcoral', 'lightyellow'],
+                backgroundColor: ['lightblue', 'lightgreen', 'lightcoral', 'lightyellow', 'pink'],
                 borderColor: 'black',
                 borderWidth: 1,
                 data: data

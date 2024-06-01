@@ -39,7 +39,7 @@ const TimeHist = () => {
         data.forEach(row => {
             const time = row["TIME OCC"];
             if (time) {
-                const hour = Math.floor(parseInt(time) / 100); // Extract hour from military time
+                const hour = Math.floor(parseInt(time) / 100); 
                 if (!timeCounts[hour]) {
                     timeCounts[hour] = 0;
                 }
@@ -70,8 +70,7 @@ const TimeHist = () => {
         updateTimeCounts(newFilteredData);
     };
 
-    // Generate labels and data for the chart
-    const labels = Array.from({ length: 24 }, (_, i) => i); // 24 hours
+    const labels = Array.from({ length: 24 }, (_, i) => i); 
     const data = labels.map(hour => timeCounts[hour] || 0);
 
     const chartData = {
@@ -91,11 +90,14 @@ const TimeHist = () => {
 
     return (
         <div 
-            style={{
-                width: "700px", 
-                height: "400px", 
-                padding: "20px"
-            }}>
+            style={
+                {
+                    width: "700px", 
+                    height: "400px", 
+                    padding: "20px"
+                }
+            }
+        >
             <h2>Histogram of when Crimes Occurred</h2>
             <FilterComponent onFilterChange={handleFilterChange} areas={areas} genders={genders} />
             <div>
