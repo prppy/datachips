@@ -3,6 +3,7 @@ import AreaFreqDist from './AreaFreqDist.jsx'
 import CrmCdFreqDist from "./CrmCdFreqDist.jsx"
 import GenderPie from "./GenderPie.jsx"
 import WeaponPie from "./WeaponPie"
+import TimeHist from "./TimeHist.jsx"
 
 function App() {
   return (
@@ -25,6 +26,14 @@ function App() {
         }}>
         <GenderPie></GenderPie>
         <WeaponPie></WeaponPie>
+      </div>
+      <div 
+        style={{
+          display: "flex", 
+          flexDirection: "row", 
+          alignItems: "center",
+        }}>
+        <TimeHist></TimeHist>
       </div>
     </>
   )
