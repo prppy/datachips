@@ -95,7 +95,7 @@ const WeaponPie = () => {
               flexDirection: "row"
             }}
         >
-            <h2>Pie Chart of Weapons</h2>
+            <h2>Pie Chart of Top 5 Commonly-used Weapons</h2>
             <FilterComponent onFilterChange={handleFilterChange} areas={areas} genders={genders} />
             <div 
                 style={{
