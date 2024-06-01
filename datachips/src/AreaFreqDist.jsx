@@ -10,11 +10,13 @@ ChartJS.register(
     LinearScale, 
     Tooltip, 
     Legend
-)
+);
 
 const AreaFreqDist = () => {
     const [areaCounts, setAreaCounts] = useState({});
     const [filteredData, setFilteredData] = useState([]);
+    const [areas, setAreas] = useState([]);
+    const [genders, setGenders] = useState([]);
 
     useEffect(() => {
         fetch('/data/filteredLA.csv')
@@ -23,36 +25,61 @@ const AreaFreqDist = () => {
             Papa.parse(csvText, {
                 header: true,
                 complete: (results) => {
-                    const areaCounts = {};
-                    results.data.forEach(row => {
-                        const area = row["AREA NAME"];
-                        if (area) {
-                            if (!areaCounts[area]) {
-                                areaCounts[area] = 0;
-                            }
-                            areaCounts[area]++;
-                        }
-                    });
-                    setAreaCounts(areaCounts);
+                    setFilteredData(results.data);
+                    updateAreaCounts(results.data);
+                    extractUniqueAreas(results.data);
+                    extractUniqueGenders(results.data);
                 }
             });
         });
-    }, 
-    []);
+    }, []);
 
-    // Sort areaCounts and prepare chart data
+    const updateAreaCounts = (data) => {
+        const areaCounts = {};
+        data.forEach(row => {
+            const area = row["AREA NAME"];
+            if (area) {
+                if (!areaCounts[area]) {
+                    areaCounts[area] = 0;
+                }
+                areaCounts[area]++;
+            }
+        });
+        setAreaCounts(areaCounts);
+    };
+
+    const extractUniqueAreas = (data) => {
+        const uniqueAreas = [...new Set(data.map(row => row["AREA NAME"]))];
+        setAreas(uniqueAreas);
+    };
+
+    const extractUniqueGenders = (data) => {
+        const uniqueGenders = [...new Set(data.map(row => row["Vict Sex"]))];
+        setGenders(uniqueGenders);
+    };
+
+    const handleFilterChange = (filters) => {
+        const { areaName, gender, dateOccurred } = filters;
+        const newFilteredData = filteredData.filter(row => {
+            const matchesArea = !areaName || row["AREA NAME"].toLowerCase() === areaName.toLowerCase();
+            const matchesGender = !gender || row["Vict Sex"].toLowerCase() === gender.toLowerCase();
+            const matchesDate = !dateOccurred || new Date(row["DATE OCC"]) >= new Date(dateOccurred);
+            return matchesArea && matchesGender && matchesDate;
+        });
+        updateAreaCounts(newFilteredData);
+    };
+
     const sortedAreaCounts = Object.entries(areaCounts).sort(([,a],[,b]) => b-a);
     const labels = sortedAreaCounts.map(([area]) => area);
     const data = sortedAreaCounts.map(([,count]) => count);
 
-    // Convert areaCounts object into chart data
     const chartData = {
         labels: labels,
         datasets: [
             {
                 label: 'Frequency',
                 backgroundColor: 'lightblue',
-                borderColor: ' black',
+                borderColor: 'black',
                 borderWidth: 1,
                 data: data
             }
@@ -70,15 +97,16 @@ const AreaFreqDist = () => {
             }}
         >
             <h2>Frequency Distributions of Crimes across Area</h2>
-                <div>
-                    <Bar 
-                        style={{
-                          padding: "20px",
-                          width: "100%",
-                        }}
-                        data={chartData} 
-                        options={options}
-                    />
+            <FilterComponent onFilterChange={handleFilterChange} areas={areas} genders={genders} />
+            <div>
+                <Bar 
+                    style={{
+                      padding: "20px",
+                      width: "100%",
+                    }}
+                    data={chartData} 
+                    options={options}
+                />
             </div>
         </div>
     );

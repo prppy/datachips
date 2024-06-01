@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FilterComponent = ({ onFilterChange }) => {
+const FilterComponent = ({ areas, genders, onFilterChange }) => {
     const [filters, setFilters] = useState({
         areaName: '',
         gender: '',
@@ -10,8 +10,8 @@ const FilterComponent = ({ onFilterChange }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFilters({
-            ...filters,
-            [name]: value
+            ...filters,  // Spread the existing filters state
+            [name]: value  // Update the specific filter field with the new value
         });
     };
 
@@ -21,22 +21,28 @@ const FilterComponent = ({ onFilterChange }) => {
 
     return (
         <div style={{ marginBottom: '20px' }}>
-            <input 
-                type="text" 
-                placeholder="Filter by Area Name" 
+            <select
                 name="areaName"
-                value={filters.areaName} 
-                onChange={handleChange} 
+                value={filters.areaName}
+                onChange={handleChange}
                 style={{ marginRight: '10px' }}
-            />
-            <input 
-                type="text" 
-                placeholder="Filter by Gender" 
+            >
+                <option value="">All Areas</option>
+                {areas.map(area => (
+                    <option key={area} value={area}>{area}</option>
+                ))}
+            </select>
+            <select
                 name="gender"
-                value={filters.gender} 
-                onChange={handleChange} 
+                value={filters.gender}
+                onChange={handleChange}
                 style={{ marginRight: '10px' }}
-            />
+            >
+                <option value="">All Genders</option>
+                {genders.map(gender => (
+                    <option key={gender} value={gender}>{gender}</option>
+                ))}
+            </select>
             <input 
                 type="date" 
                 placeholder="Filter by Date Occurred" 

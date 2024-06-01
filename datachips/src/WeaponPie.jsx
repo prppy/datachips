@@ -10,8 +10,8 @@ ChartJS.register(
     Legend
 );
 
-const GenderPie = () => {
-    const [genderCounts, setGenderCounts] = useState({});
+const WeaponPie = () => {
+    const [weaponCounts, setWeaponCounts] = useState({});
     const [filteredData, setFilteredData] = useState([]);
     const [areas, setAreas] = useState([]);
     const [genders, setGenders] = useState([]);
@@ -24,7 +24,7 @@ const GenderPie = () => {
                     header: true,
                     complete: (results) => {
                         setFilteredData(results.data);
-                        updateGenderCounts(results.data);
+                        updateweaponCounts(results.data);
                         extractUniqueAreas(results.data);
                         extractUniqueGenders(results.data);
                     }
@@ -32,18 +32,18 @@ const GenderPie = () => {
             });
     }, []);
 
-    const updateGenderCounts = (data) => {
-        const genderCounts = {};
+    const updateweaponCounts = (data) => {
+        const weaponCounts = {};
         data.forEach(row => {
             const gender = row["Vict Sex"];
             if (gender) {
-                if (!genderCounts[gender]) {
-                    genderCounts[gender] = 0;
+                if (!weaponCounts[gender]) {
+                    weaponCounts[gender] = 0;
                 }
-                genderCounts[gender]++;
+                weaponCounts[gender]++;
             }
         });
-        setGenderCounts(genderCounts);
+        setWeaponCounts(weaponCounts);
     };
 
     const extractUniqueAreas = (data) => {
@@ -95,7 +95,7 @@ const GenderPie = () => {
               flexDirection: "row"
             }}
         >
-            <h2>Pie Chart of Victim's Genders</h2>
+            <h2>Pie Chart of VWeapons Used</h2>
             <FilterComponent onFilterChange={handleFilterChange} areas={areas} genders={genders} />
             <div 
                 style={{
@@ -116,4 +116,4 @@ const GenderPie = () => {
     );
 };
 
-export default GenderPie;
+export default WeaponPie;
